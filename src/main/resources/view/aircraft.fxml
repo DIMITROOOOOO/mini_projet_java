@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="your.package.controller.AircraftController">
+    <stylesheets>
+        <URL value="@../style.css"/>
+    </stylesheets>
+
+    <top>
+        <ToolBar>
+            <Label text="Aircraft Management" />
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Add Aircraft" onAction="#handleAddAircraft"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <TableView fx:id="aircraftTable">
+            <columns>
+                <TableColumn fx:id="colID" text="ID"/>
+                <TableColumn fx:id="colType" text="Type"/>
+                <TableColumn fx:id="colCapacity" text="Capacity"/>
+                <TableColumn fx:id="colStatus" text="Status"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

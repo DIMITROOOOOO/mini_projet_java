@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
+    <stylesheets>
+        <URL value="@../style.css" />
+    </stylesheets>
+
+    <HBox spacing="10">
+        <Label text="Destination:" />
+        <TextField fx:id="destinationField" />
+
+        <Label text="Date:" />
+        <DatePicker fx:id="datePicker" prefHeight="33.0" prefWidth="169.0" />
+
+        <Button onAction="#handleSearch" text="Search" />
+    </HBox>
+
+    <TableView fx:id="resultsTable">
+        <columns>
+            <TableColumn fx:id="colFlightNo" text="Flight No" />
+            <TableColumn fx:id="colDestination" prefWidth="104.99999237060547" text="Destination" />
+            <TableColumn fx:id="colAircraft" prefWidth="84.19998168945312" text="Aircraft" />
+            <TableColumn fx:id="colTime" prefWidth="51.0" text="Time" />
+        </columns>
+    </TableView>
+</VBox>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.mini_projet.controller.LoginController">
+    <stylesheets>
+        <URL value="@../style.css"/>
+    </stylesheets>
+    <top>
+        <ToolBar>
+            <Label text="Flights Management" style="-fx-font-size: 16px;" />
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Add Flight" onAction="#handleAddFlight"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <TableView fx:id="flightsTable">
+            <columns>
+                <TableColumn fx:id="colFlightNumber" text="Flight No"/>
+                <TableColumn fx:id="colDestination" text="Destination"/>
+                <TableColumn fx:id="colAircraft" text="Aircraft"/>
+                <TableColumn fx:id="colCrew" text="Crew"/>
+                <TableColumn fx:id="colStatus" text="Status"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
