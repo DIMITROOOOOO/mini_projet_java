@@ -3,34 +3,37 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.image.ImageView?>
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.mini_projet.controller.LoginController">
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.LoginController">
     <stylesheets>
         <URL value="@../style.css"/>
     </stylesheets>
     <children>
-        <VBox alignment="CENTER" spacing="20.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-              AnchorPane.bottomAnchor="0.0">
-            <Label text="Tunisair" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+        <!-- Background Image -->
+        <ImageView fx:id="backgroundImage" fitWidth="1000" fitHeight="600" preserveRatio="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <image>
+                <Image fx:id="backgroundImageSrc" url="@/images/Aeroport_Tunis_Carthage.jpg"/>
+            </image>
+        </ImageView>
 
-            <GridPane hgap="10" vgap="15">
+        <!-- Semi-transparent Login Card -->
+        <VBox alignment="CENTER" spacing="20.0" styleClass="login-card" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <Label text="Tunisair Gestion des Vols" styleClass="label" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+
+            <GridPane hgap="15" vgap="20">
                 <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
+                    <Insets top="30" right="30" bottom="30" left="30"/>
                 </padding>
 
-                <Label text="Username:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="usernameField" promptText="Enter username"
-                           GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                <Label text="Username:" styleClass="input-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="usernameField" promptText="Enter username" styleClass="input-field" GridPane.rowIndex="0" GridPane.columnIndex="1" />
 
-                <Label text="Password:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <PasswordField fx:id="passwordField" promptText="Enter password"
-                               GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                <Label text="Password:" styleClass="input-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="passwordField" promptText="Enter password" styleClass="input-field" GridPane.rowIndex="1" GridPane.columnIndex="1" />
 
-                <Button text="Login" onAction="#handleLogin"
-                        GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.halignment="RIGHT"/>
+                <Button text="Login" onAction="#handleLogin" styleClass="login-button" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.halignment="RIGHT"/>
             </GridPane>
         </VBox>
     </children>

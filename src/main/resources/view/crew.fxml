@@ -2,27 +2,26 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import java.net.URL?>
-<BorderPane prefHeight="435.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="your.package.controller.CrewController">
+
+<BorderPane prefHeight="435.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_projet.controller.CrewController">
     <stylesheets>
         <URL value="@../style.css"/>
     </stylesheets>
     <top>
-        <ToolBar>
-            <Label text="Crew Management" />
-            <Region HBox.hgrow="ALWAYS" />
-            <Button onAction="#handleAddCrew" text="Add Crew" />
+        <ToolBar styleClass="tool-bar">
+            <Label text="Crew Management" styleClass="label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button onAction="#handleAddCrew" text="Add Crew" styleClass="button"/>
         </ToolBar>
     </top>
-
     <center>
-        <TableView fx:id="crewTable">
+        <TableView fx:id="crewTable" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="colName" text="Name" />
-                <TableColumn fx:id="colRole" text="Role" />
-                <TableColumn fx:id="colStatus" text="Status" />
-                <TableColumn fx:id="colAssignedFlights" prefWidth="130.80006408691406" text="Assigne to Flights" />
+                <TableColumn fx:id="colName" text="Name"/>
+                <TableColumn fx:id="colRole" text="Role"/>
+                <TableColumn fx:id="colStatus" text="Status"/>
+                <TableColumn fx:id="colAssignedFlights" text="Assigned to Flights"/>
             </columns>
         </TableView>
     </center>

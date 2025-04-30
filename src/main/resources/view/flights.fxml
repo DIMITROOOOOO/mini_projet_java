@@ -2,23 +2,21 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import java.net.URL?>
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.mini_projet.controller.LoginController">
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.FlightsController">
     <stylesheets>
         <URL value="@../style.css"/>
     </stylesheets>
     <top>
-        <ToolBar>
-            <Label text="Flights Management" style="-fx-font-size: 16px;" />
+        <ToolBar styleClass="tool-bar">
+            <Label text="Flights Management" styleClass="label" style="-fx-font-size: 16px;"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Add Flight" onAction="#handleAddFlight"/>
+            <Button text="Add Flight" onAction="#handleAddFlight" styleClass="button"/>
         </ToolBar>
     </top>
-
     <center>
-        <TableView fx:id="flightsTable">
+        <TableView fx:id="flightsTable" styleClass="table-view">
             <columns>
                 <TableColumn fx:id="colFlightNumber" text="Flight No"/>
                 <TableColumn fx:id="colDestination" text="Destination"/>
