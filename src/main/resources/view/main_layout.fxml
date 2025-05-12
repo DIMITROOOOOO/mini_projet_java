@@ -4,26 +4,26 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<BorderPane prefHeight="192.0" prefWidth="409.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_projet.controller.DashboardController">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_projet.controller.DashboardController">
     <stylesheets>
         <URL value="@../style.css"/>
     </stylesheets>
     <top>
         <ToolBar styleClass="tool-bar">
-            <Label text="Dashboard" styleClass="label" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label text="Tunisair Gestion des Vols - Dashboard" styleClass="label" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
             <Region fx:id="spacer" HBox.hgrow="ALWAYS"/>
             <Button onAction="#handleLogout" text="Logout" styleClass="button"/>
         </ToolBar>
     </top>
     <left>
         <VBox spacing="10" styleClass="sidebar" style="-fx-padding: 10;">
-            <Button onAction="#goToFlights" prefHeight="37.0" prefWidth="155.0" text="Manage Flights" styleClass="sidebar-button"/>
-            <Button onAction="#goToAircraft" prefHeight="37.0" prefWidth="155.0" text="Manage Aircraft" styleClass="sidebar-button"/>
-            <Button onAction="#goToCrew" prefHeight="38.0" prefWidth="155.0" text="Manage Crew" styleClass="sidebar-button"/>
-            <Button onAction="#goToSearch" prefHeight="38.0" prefWidth="155.0" text="Search Flights" styleClass="sidebar-button"/>
+            <Button onAction="#goToFlights" prefHeight="40.0" prefWidth="200.0" text="Manage Flights" styleClass="sidebar-button"/>
+            <Button onAction="#goToAircraft" prefHeight="40.0" prefWidth="200.0" text="Manage Aircraft" styleClass="sidebar-button"/>
+            <Button onAction="#goToCrew" prefHeight="40.0" prefWidth="200.0" text="Manage Crew" styleClass="sidebar-button"/>
+            <Button onAction="#goToSearch" prefHeight="40.0" prefWidth="200.0" text="Search Flights" styleClass="sidebar-button"/>
         </VBox>
     </left>
     <center>
-        <Label text="Bienvenue" styleClass="dashboard-label"/>
+        <Label text="Welcome to the Dashboard" styleClass="dashboard-label" style="-fx-font-size: 24px;"/>
     </center>
 </BorderPane>

@@ -12,12 +12,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginController {
+public class SignUpController {
 
     @FXML
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private PasswordField confirmPasswordField;
 
     private UserDao userDao;
 
@@ -27,39 +29,48 @@ public class LoginController {
     }
 
     @FXML
-    private void handleLogin(javafx.event.ActionEvent event) {
+    private void handleSignUp() {
         String username = usernameField.getText().trim();
         String password = passwordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Form Error", "Please enter both username and password.");
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Form Error", "Please fill in all fields.");
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            showAlert(Alert.AlertType.ERROR, "Password Mismatch", "Passwords do not match.");
             return;
         }
 
         try {
-            user authenticatedUser = userDao.authenticate(username, password);
-            if (authenticatedUser != null) {
-                showAlert(Alert.AlertType.INFORMATION, "Login Success", "Welcome, " + username + "!");
-                navigateToDashboard();
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or password.");
+            user existingUser = userDao.findByUsername(username);
+            if (existingUser != null) {
+                showAlert(Alert.AlertType.ERROR, "Username Taken", "This username is already taken.");
+                return;
             }
-        } catch (RuntimeException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Authentication error: " + e.getMessage());
+
+            user newUser = new user(0, username, password);
+            userDao.ajouterUser(newUser);
+            showAlert(Alert.AlertType.INFORMATION, "Sign Up Success", "Account created for " + username + "!");
+            navigateToDashboard();
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to create account: " + e.getMessage());
         }
     }
 
     @FXML
-    private void handleSignUpNavigation() {
+    private void handleBackToLogin() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/signup.fxml"));
-            Scene signupScene = new Scene(loader.load(), 1000, 600);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
+            Scene loginScene = new Scene(loader.load(), 1000, 600);
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(signupScene);
-            stage.setTitle("Tunisair Gestion des Vols - Sign Up");
+            stage.setScene(loginScene);
+            stage.setTitle("Tunisair Gestion des Vols - Login");
             stage.show();
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Failed to load sign-up page: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Failed to return to login: " + e.getMessage());
         }
     }
 

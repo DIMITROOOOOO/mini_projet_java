@@ -11,6 +11,13 @@ public class avion {
         this.nbPlace = nbPlace;
         this.status = status;
     }
+    public avion( int id,String model, int nbPlace, status status) {
+        this.id = id;
+        this.model = model;
+        this.nbPlace = nbPlace;
+        this.status = status;
+    }
+
 
     public int getId() {
         return id;

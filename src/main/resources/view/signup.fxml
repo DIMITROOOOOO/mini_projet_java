@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.LoginController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.SignUpController">
     <stylesheets>
         <URL value="@../style.css"/>
     </stylesheets>
     <children>
         <VBox alignment="CENTER" spacing="20.0" styleClass="login-card" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
-            <Label text="Tunisair Gestion des Vols" styleClass="label" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <Label text="Tunisair Gestion des Vols - Sign Up" styleClass="label" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
             <GridPane hgap="15" vgap="20">
                 <padding>
                     <Insets top="30" right="30" bottom="30" left="30"/>
@@ -20,8 +20,10 @@
                 <TextField fx:id="usernameField" promptText="Enter username" styleClass="input-field" GridPane.rowIndex="0" GridPane.columnIndex="1" />
                 <Label text="Password:" styleClass="input-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <PasswordField fx:id="passwordField" promptText="Enter password" styleClass="input-field" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-                <Button text="Login" onAction="#handleLogin" styleClass="login-button" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.halignment="RIGHT"/>
-                <Button text="Sign Up" onAction="#handleSignUpNavigation" styleClass="login-button" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.halignment="LEFT"/>
+                <Label text="Confirm Password:" styleClass="input-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" styleClass="input-field" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                <Button text="Sign Up" onAction="#handleSignUp" styleClass="login-button" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT"/>
+                <Button text="Back to Login" onAction="#handleBackToLogin" styleClass="login-button" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.halignment="LEFT"/>
             </GridPane>
         </VBox>
     </children>

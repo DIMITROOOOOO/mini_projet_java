@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.AircraftController">
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.AvionController">
     <stylesheets>
         <URL value="@../style.css"/>
     </stylesheets>
@@ -18,10 +19,19 @@
     <center>
         <TableView fx:id="aircraftTable" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="colID" text="ID"/>
-                <TableColumn fx:id="colType" text="Type"/>
-                <TableColumn fx:id="colCapacity" text="Capacity"/>
-                <TableColumn fx:id="colStatus" text="Status"/>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50">
+                    <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="colmodel" text="Model" prefWidth="150">
+                    <cellValueFactory><PropertyValueFactory property="model"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="capacity" text="Capacity" prefWidth="100">
+                    <cellValueFactory><PropertyValueFactory property="nbPlace"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="colsatuts" text="Status" prefWidth="150">
+                    <cellValueFactory><PropertyValueFactory property="status"/></cellValueFactory>
+                </TableColumn>
+                    <TableColumn fx:id="actionCol" text="Actions" prefWidth="150"/>
             </columns>
         </TableView>
     </center>

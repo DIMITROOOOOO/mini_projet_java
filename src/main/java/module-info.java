@@ -10,7 +10,12 @@ module com.example.mini_projet {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires java.sql;
-
+    requires jbcrypt;
+    requires java.desktop;
+    opens com.example.mini_projet.controller to javafx.fxml;
     opens com.example.mini_projet to javafx.fxml;
     exports com.example.mini_projet;
+    opens com.example.mini_projet.model to javafx.base;
+    exports com.example.mini_projet.controller;
+
 }
