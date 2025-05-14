@@ -1,7 +1,7 @@
 package com.example.mini_projet.model;
 
 public enum status{
-    disponible,
-    en_maintance,
-    ocupe
+    DISPONIBLE,
+    EN_MAINTANCE,
+    OCUPE
 }

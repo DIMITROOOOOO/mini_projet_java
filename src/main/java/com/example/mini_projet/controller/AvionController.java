@@ -191,9 +191,7 @@ public class AvionController {
             if (dialogButton == saveButtonType) {
                 try {
                     int capacite = Integer.parseInt(capaciteField.getText());
-                    // Create a new avion object to avoid modifying the original until confirmed
-                    avion updatedAvion = new avion(modeleField.getText(), capacite, statutCombo.getValue());
-                    updatedAvion.setId(avion.getId()); // Preserve the ID
+                    avion updatedAvion = new avion(avion.getId(), modeleField.getText(), capacite, statutCombo.getValue());
                     return updatedAvion;
                 } catch (NumberFormatException e) {
                     showAlert("Invalid Input", "Capacity must be a number.");
@@ -205,8 +203,7 @@ public class AvionController {
         dialog.showAndWait().ifPresent(updatedAvion -> {
             try {
                 avionService.editAvion(updatedAvion);
-                // Instead of modifying the original avion object, reload the entire list
-                loadAvionData();
+                loadAvionData(); // Reload data from database to reflect changes
                 showSuccess("Success", "Aircraft updated successfully");
             } catch (IllegalArgumentException e) {
                 LOGGER.severe("Edit aircraft failed: " + e.getMessage());

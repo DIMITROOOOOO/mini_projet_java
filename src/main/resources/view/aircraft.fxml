@@ -31,7 +31,7 @@
                     <TableColumn fx:id="colsatuts" text="Status" prefWidth="150.0">
                         <cellValueFactory><PropertyValueFactory property="status"/></cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="actionCol" text="Actions" prefWidth="150.0"/>
+                    <TableColumn fx:id="actionCol" text="Actions" prefWidth="250.0"/>
                 </columns>
             </TableView>
         </VBox>

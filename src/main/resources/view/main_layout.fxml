@@ -25,22 +25,7 @@
     <center>
         <VBox spacing="20" style="-fx-padding: 20;">
             <Label text="Welcome to the Dashboard" styleClass="label" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-            <HBox spacing="20">
-                <VBox styleClass="card" alignment="CENTER" prefWidth="300.0">
-                    <Label text="Total Flights" styleClass="label"/>
-                    <Label text="51" styleClass="label" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
-                </VBox>
-                <VBox styleClass="card" alignment="CENTER" prefWidth="300.0">
-                    <Label text="On Time" styleClass="label"/>
-                    <Label text="40" styleClass="label" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
-                    <ProgressBar progress="0.78" prefWidth="200.0" style="-fx-accent: #5b21b6;"/>
-                </VBox>
-                <VBox styleClass="card" alignment="CENTER" prefWidth="300.0">
-                    <Label text="Delayed" styleClass="label"/>
-                    <Label text="11" styleClass="label" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
-                    <ProgressBar progress="0.22" prefWidth="200.0" style="-fx-accent: #ef4444;"/>
-                </VBox>
-            </HBox>
+
             <StackPane fx:id="contentArea" style="-fx-padding: 0 20 20 20;"/>
         </VBox>
     </center>
