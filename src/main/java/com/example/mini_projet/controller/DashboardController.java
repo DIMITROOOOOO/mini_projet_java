@@ -2,70 +2,58 @@ package com.example.mini_projet.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.Region;
-import javafx.stage.Stage;
-
+import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
 import java.io.IOException;
 
 public class DashboardController {
 
     @FXML
-    private void goToAircraft() {
-        navigateTo("/view/aircraft.fxml", "Tunisair Aircraft Management");
+    private StackPane contentArea;
+
+    @FXML
+    private void initialize() {
+        // Load the Flights page by default
+       // loadPage("/com/example/mini_projet/Flights.fxml");
     }
 
     @FXML
     private void goToFlights() {
-        navigateTo("/view/flights.fxml", "Tunisair Flights Management");
+        loadPage("/view/flights.fxml");
+    }
+
+    @FXML
+    private void goToAircraft() {
+        loadPage("/view/aircraft.fxml");
     }
 
     @FXML
     private void goToCrew() {
-        navigateTo("/view/crew.fxml", "Tunisair Crew Management");
+        loadPage("/view/crew.fxml");
     }
 
     @FXML
     private void goToSearch() {
-        navigateTo("/view/search.fxml", "Tunisair Flight Search");
+        loadPage("/view/search.fxml");
     }
 
     @FXML
     private void handleLogout() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
-            Scene loginScene = new Scene(loader.load(), 1000, 600);
-            Stage stage = (Stage) spacer.getScene().getWindow();
-            stage.setScene(loginScene);
-            stage.setTitle("Tunisair Gestion des Vols - Login");
-            stage.show();
+            Parent loginPage = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+            contentArea.getScene().setRoot(loginPage);
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Failed to return to login: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    @FXML
-    private Region spacer; // Matches fx:id in dashboard.fxml
-
-    private void navigateTo(String fxmlPath, String title) {
+    private void loadPage(String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Scene scene = new Scene(loader.load(), 1000, 600);
-            Stage stage = (Stage) spacer.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle(title);
-            stage.show();
+            Parent page = FXMLLoader.load(getClass().getResource(fxmlPath));
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(page);
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Failed to load " + title + ": " + e.getMessage());
+            e.printStackTrace();
         }
-    }
-
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

@@ -4,26 +4,39 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.FlightsController">
+<VBox spacing="20" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_projet.controller.FlightsController">
     <stylesheets>
-        <URL value="@../style.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
-    <top>
-        <ToolBar styleClass="tool-bar">
-            <Label text="Flights Management" styleClass="label" style="-fx-font-size: 16px;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Add Flight" onAction="#handleAddFlight" styleClass="button"/>
-        </ToolBar>
-    </top>
-    <center>
-        <TableView fx:id="flightsTable" styleClass="table-view">
-            <columns>
-                <TableColumn fx:id="colFlightNumber" text="Flight No"/>
-                <TableColumn fx:id="colDestination" text="Destination"/>
-                <TableColumn fx:id="colAircraft" text="Aircraft"/>
-                <TableColumn fx:id="colCrew" text="Crew"/>
-                <TableColumn fx:id="colStatus" text="Status"/>
-            </columns>
-        </TableView>
-    </center>
-</BorderPane>
+    <!-- Stats Cards Section -->
+    <HBox spacing="20">
+        <VBox styleClass="card" alignment="CENTER">
+            <Label text="Total Flights" styleClass="label"/>
+            <Label text="51" styleClass="label" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </VBox>
+        <VBox styleClass="card" alignment="CENTER">
+            <Label text="On Time" styleClass="label"/>
+            <Label text="40" styleClass="label" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <ProgressBar progress="0.78" prefWidth="150.0" style="-fx-accent: #5b21b6;"/>
+        </VBox>
+        <VBox styleClass="card" alignment="CENTER">
+            <Label text="Delayed" styleClass="label"/>
+            <Label text="11" styleClass="label" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <ProgressBar progress="0.22" prefWidth="150.0" style="-fx-accent: #ef4444;"/>
+        </VBox>
+    </HBox>
+    <!-- Flights Table -->
+    <TableView fx:id="flightsTable" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="colFlightNumber" text="Flight No"/>
+            <TableColumn fx:id="colDestination" text="Destination"/>
+            <TableColumn fx:id="colAircraft" text="Aircraft"/>
+            <TableColumn fx:id="colCrew" text="Crew"/>
+            <TableColumn fx:id="colStatus" text="Status"/>
+        </columns>
+    </TableView>
+    <!-- Action Buttons -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Add Flight" onAction="#handleAddFlight" styleClass="button"/>
+    </HBox>
+</VBox>

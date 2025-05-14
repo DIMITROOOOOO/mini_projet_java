@@ -27,11 +27,13 @@ public class AvionController {
 
     @FXML
     private void initialize() {
+        // Bind columns to properties
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colmodel.setCellValueFactory(new PropertyValueFactory<>("model"));
         capacity.setCellValueFactory(new PropertyValueFactory<>("nbPlace"));
         colsatuts.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+        // Action column with Edit and Delete buttons
         actionCol.setCellFactory(p -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
@@ -61,7 +63,13 @@ public class AvionController {
             }
         });
 
+        // Load initial data
+        loadAvionData();
+    }
+
+    private void loadAvionData() {
         try {
+            avionList.clear();
             avionList.addAll(avionService.getAllAvions());
             aircraftTable.setItems(avionList);
             LOGGER.info("Loaded " + avionList.size() + " avions");
@@ -127,14 +135,12 @@ public class AvionController {
         dialog.showAndWait().ifPresent(avion -> {
             try {
                 avionService.addAvion(avion.getModel(), avion.getNbPlace(), avion.getStatus());
-                avionList.add(avion);
-                aircraftTable.refresh();
+                loadAvionData(); // Reload data from database
                 showSuccess("Success", "Aircraft added successfully");
             } catch (IllegalArgumentException e) {
                 LOGGER.severe("Add aircraft failed: " + e.getMessage());
                 showAlert("Error", "Failed to add aircraft: " + e.getMessage());
-            }
-            catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 LOGGER.severe("Add aircraft failed: " + e.getMessage());
             }
         });
@@ -185,10 +191,10 @@ public class AvionController {
             if (dialogButton == saveButtonType) {
                 try {
                     int capacite = Integer.parseInt(capaciteField.getText());
-                    avion.setModel(modeleField.getText());
-                    avion.setNbPlace(capacite);
-                    avion.setStatus(statutCombo.getValue());
-                    return avion;
+                    // Create a new avion object to avoid modifying the original until confirmed
+                    avion updatedAvion = new avion(modeleField.getText(), capacite, statutCombo.getValue());
+                    updatedAvion.setId(avion.getId()); // Preserve the ID
+                    return updatedAvion;
                 } catch (NumberFormatException e) {
                     showAlert("Invalid Input", "Capacity must be a number.");
                 }
@@ -199,13 +205,13 @@ public class AvionController {
         dialog.showAndWait().ifPresent(updatedAvion -> {
             try {
                 avionService.editAvion(updatedAvion);
-                aircraftTable.refresh();
+                // Instead of modifying the original avion object, reload the entire list
+                loadAvionData();
                 showSuccess("Success", "Aircraft updated successfully");
             } catch (IllegalArgumentException e) {
                 LOGGER.severe("Edit aircraft failed: " + e.getMessage());
                 showAlert("Error", "Failed to edit aircraft: " + e.getMessage());
-            }
-            catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 LOGGER.severe("Edit aircraft failed: " + e.getMessage());
             }
         });
@@ -220,14 +226,12 @@ public class AvionController {
         if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             try {
                 avionService.deleteAvion(avion.getId());
-                avionList.remove(avion);
-                aircraftTable.refresh();
+                loadAvionData(); // Reload data from database
                 showSuccess("Success", "Aircraft deleted successfully");
             } catch (IllegalArgumentException e) {
                 LOGGER.severe("Delete aircraft failed: " + e.getMessage());
                 showAlert("Error", "Failed to delete aircraft: " + e.getMessage());
-            }
-            catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 LOGGER.severe("Delete aircraft failed: " + e.getMessage());
             }
         }

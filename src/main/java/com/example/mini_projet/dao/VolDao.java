@@ -106,7 +106,7 @@ public class VolDao {
     public void updateVol(vol vol) {
         avion avion = avionDao.findById(vol.getAvion().getId());
         equipe equipe = equipeDao.findById(vol.getEquipe().getId());
-        if (avion == null || !avion.getStatus().equals(avion.status.disponible)) {
+        if (avion == null || !avion.getStatus().equals(avion.getStatus().disponible)) {
             throw new IllegalStateException("Avion is not available");
         }
         if (equipe == null || !equipe.isDisponible()) {

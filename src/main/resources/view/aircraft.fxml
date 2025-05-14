@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.AvionController">
     <stylesheets>
-        <URL value="@../style.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
     <top>
-        <ToolBar styleClass="tool-bar">
-            <Label text="Aircraft Management" styleClass="label"/>
+        <ToolBar styleClass="tool-bar" prefHeight="60.0">
+            <Label text="Aircraft Management" styleClass="label" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Add Aircraft" onAction="#handleAddAircraft" styleClass="button"/>
+            <Button text="Add Aircraft" onAction="#handleAddAircraft" styleClass="button" prefHeight="40.0"/>
         </ToolBar>
     </top>
     <center>
-        <TableView fx:id="aircraftTable" styleClass="table-view">
-            <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="50">
-                    <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="colmodel" text="Model" prefWidth="150">
-                    <cellValueFactory><PropertyValueFactory property="model"/></cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="capacity" text="Capacity" prefWidth="100">
-                    <cellValueFactory><PropertyValueFactory property="nbPlace"/></cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="colsatuts" text="Status" prefWidth="150">
-                    <cellValueFactory><PropertyValueFactory property="status"/></cellValueFactory>
-                </TableColumn>
-                    <TableColumn fx:id="actionCol" text="Actions" prefWidth="150"/>
-            </columns>
-        </TableView>
+        <VBox spacing="20" style="-fx-padding: 20;">
+            <TableView fx:id="aircraftTable" styleClass="table-view" prefHeight="500.0">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="80.0">
+                        <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="colmodel" text="Model" prefWidth="200.0">
+                        <cellValueFactory><PropertyValueFactory property="model"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="capacity" text="Capacity" prefWidth="120.0">
+                        <cellValueFactory><PropertyValueFactory property="nbPlace"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="colsatuts" text="Status" prefWidth="150.0">
+                        <cellValueFactory><PropertyValueFactory property="status"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="actionCol" text="Actions" prefWidth="150.0"/>
+                </columns>
+            </TableView>
+        </VBox>
     </center>
 </BorderPane>
