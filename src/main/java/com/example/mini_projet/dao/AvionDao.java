@@ -12,7 +12,6 @@ import java.util.List;
 
 public class AvionDao {
     public AvionDao() {
-        // Ensure credentials are set
         laConnexion c = new laConnexion();
         if (laConnexion.seConnecter() == null) {
             c.setUser("root");
@@ -28,7 +27,7 @@ public class AvionDao {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 String statutStr = rs.getString("statut");
-                status statut = parseStatus(statutStr); // Use helper method
+                status statut = parseStatus(statutStr);
                 avion avion = new avion(
                         rs.getString("modele"),
                         rs.getInt("capacite"),
@@ -67,7 +66,7 @@ public class AvionDao {
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 String statutStr = rs.getString("statut");
-                status statut = parseStatus(statutStr); // Use helper method
+                status statut = parseStatus(statutStr);
                 avion avion = new avion(
                         rs.getString("modele"),
                         rs.getInt("capacite"),
@@ -90,7 +89,7 @@ public class AvionDao {
             return status.valueOf(statutStr.toUpperCase());
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid status value: " + statutStr + ". Using null as fallback.");
-            return null; // Or use a default value like status.INACTIVE
+            return null;
         }
     }
 

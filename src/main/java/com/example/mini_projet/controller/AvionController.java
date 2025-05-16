@@ -8,8 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class AvionController {
@@ -24,22 +25,23 @@ public class AvionController {
 
     private avionService avionService = new avionService();
     private ObservableList<avion> avionList = FXCollections.observableArrayList();
+    private ObservableList<String> modelList = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
-        // Bind columns to properties
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colmodel.setCellValueFactory(new PropertyValueFactory<>("model"));
         capacity.setCellValueFactory(new PropertyValueFactory<>("nbPlace"));
         colsatuts.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // Action column with Edit and Delete buttons
         actionCol.setCellFactory(p -> new TableCell<>() {
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
-            private final HBox buttons = new HBox(5, editButton, deleteButton);
+            private final HBox buttons = new HBox(12, editButton, deleteButton);
 
             {
+                editButton.getStyleClass().add("edit-button");
+                deleteButton.getStyleClass().add("delete-button");
                 editButton.setOnAction(e -> {
                     avion avion = getTableView().getItems().get(getIndex());
                     handleEditAircraft(avion);
@@ -48,22 +50,16 @@ public class AvionController {
                     avion avion = getTableView().getItems().get(getIndex());
                     handleDeleteAircraft(avion);
                 });
-                editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-                deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(buttons);
-                }
+                setGraphic(empty ? null : buttons);
             }
         });
 
-        // Load initial data
+        modelList.addAll(avionService.getModelList());
         loadAvionData();
     }
 
@@ -83,48 +79,80 @@ public class AvionController {
     private void handleAddAircraft() {
         Dialog<avion> dialog = new Dialog<>();
         dialog.setTitle("Add Aircraft");
-        dialog.setHeaderText("Enter aircraft details");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getStyleClass().add("dialog-card");
 
         ButtonType addButtonType = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
+        dialogPane.getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
 
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
+        VBox content = new VBox(15);
+        content.getStyleClass().add("dialog-content");
 
-        TextField modeleField = new TextField();
-        modeleField.setPromptText("Model");
+        Label headerLabel = new Label("Add New Aircraft");
+        headerLabel.getStyleClass().add("dialog-header");
+
+        ComboBox<String> modelCombo = new ComboBox<>();
+        modelCombo.setItems(modelList);
+        modelCombo.setPromptText("Select Model");
+        modelCombo.getStyleClass().add("input-field");
+        modelCombo.setPrefWidth(400);
+
         TextField capaciteField = new TextField();
         capaciteField.setPromptText("Capacity");
+        capaciteField.setEditable(false);
+        capaciteField.getStyleClass().add("input-field");
+        capaciteField.setPrefWidth(400);
+
         ComboBox<status> statutCombo = new ComboBox<>();
         statutCombo.setItems(FXCollections.observableArrayList(status.values()));
-        statutCombo.setPromptText("Status");
+        statutCombo.setPromptText("Select Status");
+        statutCombo.getStyleClass().add("input-field");
+        statutCombo.setPrefWidth(400);
 
-        grid.add(new Label("Model:"), 0, 0);
-        grid.add(modeleField, 1, 0);
-        grid.add(new Label("Capacity:"), 0, 1);
-        grid.add(capaciteField, 1, 1);
-        grid.add(new Label("Status:"), 0, 2);
-        grid.add(statutCombo, 1, 2);
+        Map<String, Integer> modelCapacityMap = avionService.getModelCapacityMap();
+        modelCombo.valueProperty().addListener((obs, oldValue, newValue) -> {
+            capaciteField.setText(newValue != null && modelCapacityMap.containsKey(newValue) ?
+                    String.valueOf(modelCapacityMap.get(newValue)) : "");
+        });
 
-        dialog.getDialogPane().setContent(grid);
+        Label modelLabel = new Label("Model");
+        modelLabel.getStyleClass().add("input-label");
+        Label capacityLabel = new Label("Capacity");
+        capacityLabel.getStyleClass().add("input-label");
+        Label statusLabel = new Label("Status");
+        statusLabel.getStyleClass().add("input-label");
 
-        dialog.getDialogPane().lookupButton(addButtonType).setDisable(true);
-        modeleField.textProperty().addListener((obs, old, newValue) ->
-                dialog.getDialogPane().lookupButton(addButtonType).setDisable(
-                        newValue.trim().isEmpty() || capaciteField.getText().trim().isEmpty() || statutCombo.getValue() == null));
-        capaciteField.textProperty().addListener((obs, old, newValue) ->
-                dialog.getDialogPane().lookupButton(addButtonType).setDisable(
-                        modeleField.getText().trim().isEmpty() || newValue.trim().isEmpty() || statutCombo.getValue() == null));
+        content.getChildren().addAll(
+                headerLabel,
+                modelLabel,
+                modelCombo,
+                capacityLabel,
+                capaciteField,
+                statusLabel,
+                statutCombo
+        );
+
+        dialogPane.setContent(content);
+
+        dialogPane.lookupButton(addButtonType).setDisable(true);
+        modelCombo.valueProperty().addListener((obs, old, newValue) ->
+                dialogPane.lookupButton(addButtonType).setDisable(
+                        newValue == null || capaciteField.getText().trim().isEmpty() || statutCombo.getValue() == null));
         statutCombo.valueProperty().addListener((obs, old, newValue) ->
-                dialog.getDialogPane().lookupButton(addButtonType).setDisable(
-                        modeleField.getText().trim().isEmpty() || capaciteField.getText().trim().isEmpty() || newValue == null));
+                dialogPane.lookupButton(addButtonType).setDisable(
+                        modelCombo.getValue() == null || capaciteField.getText().trim().isEmpty() || newValue == null));
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == addButtonType) {
                 try {
+                    String selectedModel = modelCombo.getValue();
                     int capacite = Integer.parseInt(capaciteField.getText());
-                    return new avion(modeleField.getText(), capacite, statutCombo.getValue());
+                    status selectedStatus = statutCombo.getValue();
+                    if (selectedModel == null || selectedStatus == null) {
+                        showAlert("Invalid Input", "All fields are required.");
+                        return null;
+                    }
+                    return new avion(selectedModel, capacite, selectedStatus);
                 } catch (NumberFormatException e) {
                     showAlert("Invalid Input", "Capacity must be a number.");
                 }
@@ -135,7 +163,7 @@ public class AvionController {
         dialog.showAndWait().ifPresent(avion -> {
             try {
                 avionService.addAvion(avion.getModel(), avion.getNbPlace(), avion.getStatus());
-                loadAvionData(); // Reload data from database
+                loadAvionData();
                 showSuccess("Success", "Aircraft added successfully");
             } catch (IllegalArgumentException e) {
                 LOGGER.severe("Add aircraft failed: " + e.getMessage());
@@ -149,50 +177,76 @@ public class AvionController {
     private void handleEditAircraft(avion avion) {
         Dialog<avion> dialog = new Dialog<>();
         dialog.setTitle("Edit Aircraft");
-        dialog.setHeaderText("Edit aircraft details");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getStyleClass().add("dialog-card");
 
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+        dialogPane.getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
+        VBox content = new VBox(15);
+        content.getStyleClass().add("dialog-content");
+
+        Label headerLabel = new Label("Edit Aircraft Details");
+        headerLabel.getStyleClass().add("dialog-header");
 
         TextField modeleField = new TextField(avion.getModel());
         modeleField.setPromptText("Model");
+        modeleField.getStyleClass().add("input-field");
+        modeleField.setPrefWidth(400);
+
         TextField capaciteField = new TextField(String.valueOf(avion.getNbPlace()));
         capaciteField.setPromptText("Capacity");
+        capaciteField.getStyleClass().add("input-field");
+        capaciteField.setPrefWidth(400);
+
         ComboBox<status> statutCombo = new ComboBox<>();
         statutCombo.setItems(FXCollections.observableArrayList(status.values()));
         statutCombo.setValue(avion.getStatus());
-        statutCombo.setPromptText("Status");
+        statutCombo.setPromptText("Select Status");
+        statutCombo.getStyleClass().add("input-field");
+        statutCombo.setPrefWidth(400);
 
-        grid.add(new Label("Model:"), 0, 0);
-        grid.add(modeleField, 1, 0);
-        grid.add(new Label("Capacity:"), 0, 1);
-        grid.add(capaciteField, 1, 1);
-        grid.add(new Label("Status:"), 0, 2);
-        grid.add(statutCombo, 1, 2);
+        Label modelLabel = new Label("Model");
+        modelLabel.getStyleClass().add("input-label");
+        Label capacityLabel = new Label("Capacity");
+        capacityLabel.getStyleClass().add("input-label");
+        Label statusLabel = new Label("Status");
+        statusLabel.getStyleClass().add("input-label");
 
-        dialog.getDialogPane().setContent(grid);
+        content.getChildren().addAll(
+                headerLabel,
+                modelLabel,
+                modeleField,
+                capacityLabel,
+                capaciteField,
+                statusLabel,
+                statutCombo
+        );
 
-        dialog.getDialogPane().lookupButton(saveButtonType).setDisable(false);
+        dialogPane.setContent(content);
+
+        dialogPane.lookupButton(saveButtonType).setDisable(false);
         modeleField.textProperty().addListener((obs, old, newValue) ->
-                dialog.getDialogPane().lookupButton(saveButtonType).setDisable(
+                dialogPane.lookupButton(saveButtonType).setDisable(
                         newValue.trim().isEmpty() || capaciteField.getText().trim().isEmpty() || statutCombo.getValue() == null));
         capaciteField.textProperty().addListener((obs, old, newValue) ->
-                dialog.getDialogPane().lookupButton(saveButtonType).setDisable(
+                dialogPane.lookupButton(saveButtonType).setDisable(
                         modeleField.getText().trim().isEmpty() || newValue.trim().isEmpty() || statutCombo.getValue() == null));
         statutCombo.valueProperty().addListener((obs, old, newValue) ->
-                dialog.getDialogPane().lookupButton(saveButtonType).setDisable(
+                dialogPane.lookupButton(saveButtonType).setDisable(
                         modeleField.getText().trim().isEmpty() || capaciteField.getText().trim().isEmpty() || newValue == null));
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
                 try {
+                    String selectedModel = modeleField.getText();
                     int capacite = Integer.parseInt(capaciteField.getText());
-                    avion updatedAvion = new avion(avion.getId(), modeleField.getText(), capacite, statutCombo.getValue());
-                    return updatedAvion;
+                    status selectedStatus = statutCombo.getValue();
+                    if (selectedModel.trim().isEmpty() || selectedStatus == null) {
+                        showAlert("Invalid Input", "All fields are required.");
+                        return null;
+                    }
+                    return new avion(avion.getId(), selectedModel, capacite, selectedStatus);
                 } catch (NumberFormatException e) {
                     showAlert("Invalid Input", "Capacity must be a number.");
                 }
@@ -203,7 +257,7 @@ public class AvionController {
         dialog.showAndWait().ifPresent(updatedAvion -> {
             try {
                 avionService.editAvion(updatedAvion);
-                loadAvionData(); // Reload data from database to reflect changes
+                loadAvionData();
                 showSuccess("Success", "Aircraft updated successfully");
             } catch (IllegalArgumentException e) {
                 LOGGER.severe("Edit aircraft failed: " + e.getMessage());
@@ -219,11 +273,13 @@ public class AvionController {
         confirm.setTitle("Delete Aircraft");
         confirm.setHeaderText("Are you sure you want to delete " + avion.getModel() + "?");
         confirm.setContentText("This action cannot be undone.");
+        DialogPane dialogPane = confirm.getDialogPane();
+        dialogPane.getStyleClass().add("dialog-card");
 
         if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             try {
                 avionService.deleteAvion(avion.getId());
-                loadAvionData(); // Reload data from database
+                loadAvionData();
                 showSuccess("Success", "Aircraft deleted successfully");
             } catch (IllegalArgumentException e) {
                 LOGGER.severe("Delete aircraft failed: " + e.getMessage());
@@ -239,6 +295,8 @@ public class AvionController {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStyleClass().add("dialog-card");
         alert.showAndWait();
     }
 
@@ -247,6 +305,8 @@ public class AvionController {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStyleClass().add("dialog-card");
         alert.showAndWait();
     }
 }

@@ -10,15 +10,8 @@ public class TestDao {
         c.setUser("root");
         c.setPassWord("");
         c.seConnecter();
+        System.out.println("cbn");
 
-        UserDao userDao = new UserDao();
 
-        user user = new user(0, "agent3", "password123");
-        userDao.ajouterUser(user);
-
-        user authenticated = userDao.authenticate("agent1", "password123");
-        if (authenticated != null) {
-            System.out.println("Authentication successful for " + authenticated.getUsername());
-        }
     }
 }

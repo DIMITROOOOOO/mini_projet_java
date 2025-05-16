@@ -4,22 +4,24 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.SignUpController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="gradient-bg" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.mini_projet.controller.SignUpController">
     <stylesheets>
         <URL value="@style.css"/>
     </stylesheets>
     <children>
-        <VBox alignment="CENTER" spacing="30.0" styleClass="login-card" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
-            <Label text="Tunisair Gestion des Vols - Sign Up" styleClass="label" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1f2a44;"/>
-            <GridPane hgap="20" vgap="15" style="-fx-padding: 40 40 40 40;">
+        <VBox alignment="CENTER" spacing="40.0" styleClass="login-card" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0">
+            <Label text="Sign Up - Tunisair Gestion des Vols" styleClass="header-label" />
+            <GridPane hgap="20" vgap="20" style="-fx-padding: 30;">
                 <Label text="Username:" styleClass="input-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="usernameField" promptText="Enter username" styleClass="input-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <TextField fx:id="usernameField" promptText="Enter username" styleClass="input-field" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250.0"/>
                 <Label text="Password:" styleClass="input-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <PasswordField fx:id="passwordField" promptText="Enter password" styleClass="input-field" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <PasswordField fx:id="passwordField" promptText="Enter password" styleClass="input-field" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250.0"/>
                 <Label text="Confirm Password:" styleClass="input-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" styleClass="input-field" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-                <Button text="Sign Up" onAction="#handleSignUp" styleClass="login-button" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" prefHeight="40.0"/>
-                <Button text="Back to Login" onAction="#handleBackToLogin" styleClass="login-button" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.halignment="LEFT" prefHeight="40.0"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" styleClass="input-field" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250.0"/>
+                <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="RIGHT">
+                    <Button text="Back to Login" onAction="#handleBackToLogin" styleClass="secondary-button" prefHeight="45.0" prefWidth="120.0"/>
+                    <Button text="Sign Up" onAction="#handleSignUp" styleClass="primary-button" prefHeight="45.0" prefWidth="120.0"/>
+                </HBox>
             </GridPane>
         </VBox>
     </children>
